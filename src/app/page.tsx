@@ -1,65 +1,77 @@
-import Image from "next/image";
+import Link from "next/link";
+import StrainCard from "@/components/StrainCard";
+import { strains } from "@/data/strains";
+import { countries } from "@/data/countries";
 
 export default function Home() {
+  const featured = [...strains].sort((a, b) => b.rating - a.rating).slice(0, 6);
+  const legalCount = countries.filter((c) => c.recreational).length;
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="mx-auto max-w-6xl px-5">
+      {/* Hero */}
+      <section className="py-20 text-center sm:py-28">
+        <p className="rise pill mx-auto w-fit border-emerald/30 text-emerald">
+          {strains.length} strains · {countries.length} countries · 7 tools
+        </p>
+        <h1 className="rise rise-1 mx-auto mt-6 max-w-3xl text-5xl font-semibold leading-[1.05] sm:text-7xl">
+          Know your <em className="text-emerald not-italic">flower</em>.
+          <br />
+          Know your <em className="text-amber not-italic">world</em>.
+        </h1>
+        <p className="rise rise-2 mx-auto mt-6 max-w-xl text-lg text-ink-dim">
+          The cannabis discovery intelligence platform — strain encyclopedia, AI-powered
+          recommendations, global legality map, and precision dosing tools.
+        </p>
+        <div className="rise rise-3 mt-9 flex flex-wrap items-center justify-center gap-4">
+          <Link href="/finder" className="btn-primary">Find my perfect strain →</Link>
+          <Link href="/strains" className="pill !px-5 !py-2.5 !text-sm hover:text-ink">
+            Browse the database
+          </Link>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </section>
+
+      {/* Featured strains */}
+      <section className="py-10">
+        <div className="flex items-end justify-between">
+          <h2 className="text-3xl font-semibold">Top-rated strains</h2>
+          <Link href="/strains" className="text-sm text-emerald hover:underline">View all →</Link>
         </div>
-      </main>
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {featured.map((s) => <StrainCard key={s.slug} strain={s} />)}
+        </div>
+      </section>
+
+      {/* Pillars */}
+      <section className="grid gap-4 py-14 sm:grid-cols-2 lg:grid-cols-4">
+        {[
+          { href: "/finder", title: "AI Strain Finder", body: "Answer five questions, get personalized matches with reasons — not just a list.", accent: "text-emerald" },
+          { href: "/map", title: "Global Legality Map", body: `Live legal status for ${countries.length} countries, ${legalCount} fully legal. City guides included.`, accent: "text-amber" },
+          { href: "/tools", title: "Dosing Tools", body: "THC, CBD, edible, and tolerance calculators built on published pharmacology.", accent: "text-clay" },
+          { href: "/laws", title: "Law Library", body: "Plain-language legal breakdowns per country and city, kept current.", accent: "text-cyan-300" },
+        ].map((p) => (
+          <Link key={p.href} href={p.href} className="card p-6">
+            <h3 className={`text-xl font-semibold ${p.accent}`}>{p.title}</h3>
+            <p className="mt-2 text-sm text-ink-dim">{p.body}</p>
+          </Link>
+        ))}
+      </section>
+
+      {/* Legal snapshot */}
+      <section className="py-10">
+        <h2 className="text-3xl font-semibold">Where is it legal?</h2>
+        <div className="mt-6 flex flex-wrap gap-2.5">
+          {countries.map((c) => (
+            <Link
+              key={c.code}
+              href={`/laws/${c.slug}`}
+              className="pill !py-1.5 hover:border-emerald/40 hover:text-ink"
+            >
+              <span>{c.flag}</span> {c.name}
+            </Link>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }
