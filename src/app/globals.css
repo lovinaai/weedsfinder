@@ -110,6 +110,58 @@ input, select {
 }
 input:focus, select:focus { border-color: rgba(74, 222, 128, 0.5); }
 
+::selection { background: rgba(74, 222, 128, 0.3); }
+
+.text-gradient {
+  background: linear-gradient(100deg, #4ade80 0%, #a3e635 45%, #f5c518 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* slow-breathing hero orbs */
+@keyframes drift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(30px, -20px) scale(1.08); }
+}
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  pointer-events: none;
+  animation: drift 14s ease-in-out infinite;
+}
+
+/* infinite marquee */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 40s linear infinite;
+}
+.marquee-track:hover { animation-play-state: paused; }
+
+/* animated gradient ring for CTA panel */
+.gradient-ring {
+  position: relative;
+  border-radius: 1.5rem;
+  padding: 1px;
+  background: linear-gradient(120deg, rgba(74,222,128,.5), rgba(245,197,24,.25), rgba(74,222,128,.5));
+  background-size: 200% 200%;
+  animation: ringShift 6s ease infinite;
+}
+@keyframes ringShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orb, .marquee-track, .gradient-ring, .rise { animation: none; }
+}
+
 @keyframes rise {
   from { opacity: 0; transform: translateY(16px); }
   to { opacity: 1; transform: none; }
