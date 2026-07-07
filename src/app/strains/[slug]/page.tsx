@@ -16,8 +16,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const s = getStrain(slug);
   if (!s) return {};
   return {
-    title: `${s.name} Strain — ${s.thc}% THC, Effects & Reviews`,
-    description: `${s.name} (${s.genetics}): ${s.effects.slice(0, 3).join(", ")} effects, ${s.thc}% THC, ${s.cbd}% CBD. Lineage: ${s.lineage.join(" × ")}. Terpenes, medical uses, and ${s.ratingCount.toLocaleString()} community reviews.`,
+    title: `${s.name} Cannabis Strain — ${s.thc}% THC, ${s.effects.slice(0, 2).join(" & ")}`,
+    description: `${s.name} is a ${s.genetics} strain (${s.thc}% THC, ${s.cbd}% CBD) known for ${s.effects.slice(0, 3).join(", ").toLowerCase()}. Parent strains: ${s.lineage.join(" × ")}. Terpene profile, uses, and ${s.ratingCount.toLocaleString()} reader ratings.`,
     alternates: { canonical: `/strains/${s.slug}` },
   };
 }
@@ -60,8 +60,8 @@ export default async function StrainPage({ params }: Props) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
 
-      <nav className="text-sm text-ink-dim">
-        <Link href="/strains" className="hover:text-ink">Strains</Link> / {s.name}
+      <nav className="text-sm text-ink-dim" aria-label="Breadcrumb">
+        <Link href="/strains" className="hover:text-ink">Cannabis strains</Link> / {s.name}
       </nav>
 
       <div className="mt-6 grid gap-10 lg:grid-cols-[1fr_340px]">
@@ -70,11 +70,11 @@ export default async function StrainPage({ params }: Props) {
           <h1 className="mt-3 text-5xl font-semibold">{s.name}</h1>
           <div className="mt-3 flex items-center gap-3 text-sm">
             <Stars rating={s.rating} />
-            <span className="tabular text-ink-dim">{s.rating} · {s.ratingCount.toLocaleString()} reviews</span>
+            <span className="tabular text-ink-dim">{s.rating} out of 5 · {s.ratingCount.toLocaleString()} ratings</span>
           </div>
           <p className="mt-5 max-w-2xl text-lg leading-relaxed text-ink-dim">{s.description}</p>
 
-          <h2 className="mt-10 text-2xl font-semibold">Effects &amp; flavor</h2>
+          <h2 className="mt-10 text-2xl font-semibold">Reported effects &amp; flavor</h2>
           <div className="mt-4 grid gap-4 sm:grid-cols-3">
             {[
               { title: "Effects", items: s.effects },
@@ -112,9 +112,9 @@ export default async function StrainPage({ params }: Props) {
             })}
           </div>
 
-          <h2 className="mt-10 text-2xl font-semibold">Medical information</h2>
+          <h2 className="mt-10 text-2xl font-semibold">What people use it for</h2>
           <p className="mt-3 max-w-2xl leading-relaxed text-ink-dim">{s.medicalInfo}</p>
-          <p className="mt-2 text-xs text-ink-dim/70">Educational information only — not medical advice.</p>
+          <p className="mt-2 text-xs text-ink-dim/70">Reported uses only — not medical advice. Talk to a doctor before treating any condition with cannabis.</p>
         </div>
 
         {/* Sidebar */}
@@ -144,14 +144,14 @@ export default async function StrainPage({ params }: Props) {
               </div>
             ))}
           </div>
-          <Link href={`/tools/compare?a=${s.slug}`} className="btn-primary block text-center text-sm">
-            Compare this strain
+          <Link href={`/tools/compare?a=${s.slug}`} className="btn-primary block text-center text-sm" title={`Compare ${s.name} with another strain`}>
+            Compare {s.name} with another strain
           </Link>
         </aside>
       </div>
 
       <section className="mt-16">
-        <h2 className="text-2xl font-semibold">Similar strains</h2>
+        <h2 className="text-2xl font-semibold">Strains like {s.name}</h2>
         <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {relatedStrains(s).map((r) => <StrainCard key={r.slug} strain={r} />)}
         </div>

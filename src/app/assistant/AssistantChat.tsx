@@ -8,10 +8,10 @@ type Source = { type: "strain" | "law"; title: string; url: string };
 type Msg = { role: "user" | "assistant"; text: string; sources?: Source[] };
 
 const suggestions = [
-  "Is weed legal in Germany?",
-  "Best strain for sleep?",
-  "What does limonene do?",
-  "Something energetic for creativity",
+  "Is cannabis legal in Germany?",
+  "What strain helps with sleep?",
+  "What does limonene smell like?",
+  "Something uplifting for daytime use",
 ];
 
 export default function AssistantChat() {
@@ -36,10 +36,10 @@ export default function AssistantChat() {
         ...m,
         res.ok
           ? { role: "assistant", text: data.answer, sources: data.sources }
-          : { role: "assistant", text: "Something went wrong — try rephrasing your question." },
+          : { role: "assistant", text: "That didn't come through — try asking again in different words." },
       ]);
     } catch {
-      setMessages((m) => [...m, { role: "assistant", text: "Network error — please try again." }]);
+      setMessages((m) => [...m, { role: "assistant", text: "Connection dropped. Check your network and try again." }]);
     } finally {
       setBusy(false);
       setTimeout(() => bottomRef.current?.scrollIntoView({ behavior: "smooth" }), 50);
@@ -48,11 +48,12 @@ export default function AssistantChat() {
 
   return (
     <div className="mx-auto flex max-w-3xl flex-col px-5 py-12" style={{ minHeight: "calc(100vh - 8rem)" }}>
-      <h1 className="text-center text-4xl font-semibold sm:text-5xl">
-        Ask <span className="text-emerald">anything</span>
+      <p className="eyebrow rise text-center">Questions &amp; answers</p>
+      <h1 className="rise rise-1 mt-2 text-center text-4xl font-semibold sm:text-5xl">
+        Ask about <span className="text-emerald">cannabis</span>
       </h1>
       <p className="mx-auto mt-3 max-w-md text-center text-ink-dim">
-        Strains, effects, terpenes, laws in {""}every country — answered from the WeedsFinder knowledge base with sources.
+        Strains, terpenes, legal status — type a question and get an answer pulled from our guides, with links to read more.
       </p>
 
       <div className="mt-8 flex-1 space-y-4">
@@ -92,7 +93,7 @@ export default function AssistantChat() {
             </div>
           </motion.div>
         ))}
-        {busy && <p className="text-sm text-ink-dim animate-pulse">Searching the knowledge base…</p>}
+        {busy && <p className="text-sm text-ink-dim animate-pulse">Looking that up…</p>}
         <div ref={bottomRef} />
       </div>
 
@@ -103,13 +104,13 @@ export default function AssistantChat() {
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Ask about a strain, effect, or country…"
+          placeholder="e.g. Is weed legal in Canada?"
           className="w-full !rounded-full !px-5 !py-3 shadow-lg"
           maxLength={500}
-          aria-label="Ask the assistant"
+          aria-label="Your cannabis question"
         />
-        <button type="submit" disabled={busy || !input.trim()} className="btn-primary shrink-0 disabled:opacity-40">
-          Ask
+        <button type="submit" disabled={busy || !input.trim()} className="btn-primary shrink-0 disabled:opacity-40" aria-label="Submit question">
+          Send
         </button>
       </form>
     </div>

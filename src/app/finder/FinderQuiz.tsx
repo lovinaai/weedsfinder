@@ -15,45 +15,45 @@ type Step = {
 const steps: Step[] = [
   {
     key: "experience",
-    question: "How experienced are you?",
+    question: "How often do you use cannabis?",
     multi: false,
     options: [
-      { value: "beginner", label: "🌱 New or occasional" },
-      { value: "intermediate", label: "🌿 Regular consumer" },
-      { value: "expert", label: "🌳 Seasoned veteran" },
+      { value: "beginner", label: "New or occasional" },
+      { value: "intermediate", label: "A few times a week" },
+      { value: "expert", label: "Daily or near-daily" },
     ],
   },
   {
     key: "effects",
-    question: "What effects are you after?",
+    question: "What do you want to feel?",
     multi: true,
     options: allEffects.map((e) => ({ value: e, label: e })),
   },
   {
     key: "time",
-    question: "When will you consume?",
+    question: "When will you use it?",
     multi: false,
     options: [
-      { value: "morning", label: "☀️ Morning" },
-      { value: "afternoon", label: "🌤 Afternoon" },
-      { value: "evening", label: "🌆 Evening" },
-      { value: "night", label: "🌙 Night" },
+      { value: "morning", label: "Morning" },
+      { value: "afternoon", label: "Afternoon" },
+      { value: "evening", label: "Evening" },
+      { value: "night", label: "Before bed" },
     ],
   },
   {
     key: "taste",
-    question: "What flavors do you enjoy?",
+    question: "Which flavors do you like?",
     multi: true,
     options: allTastes.map((t) => ({ value: t, label: t })),
   },
   {
     key: "thc",
-    question: "How strong should it be?",
+    question: "How much THC can you handle?",
     multi: false,
     options: [
-      { value: "low", label: "Gentle (≤12% THC)" },
-      { value: "medium", label: "Moderate (12–21%)" },
-      { value: "high", label: "Maximum (21%+)" },
+      { value: "low", label: "Light — up to 12% THC" },
+      { value: "medium", label: "Moderate — 12 to 21% THC" },
+      { value: "high", label: "Strong — 21% THC and up" },
     ],
   },
 ];
@@ -88,9 +88,10 @@ export default function FinderQuiz() {
 
   return (
     <div className="mx-auto max-w-3xl px-5 py-14">
-      <h1 className="text-center text-4xl font-semibold sm:text-5xl">AI Strain Finder</h1>
+      <p className="eyebrow rise text-center">Strain finder</p>
+      <h1 className="rise rise-1 mt-2 text-center text-4xl font-semibold sm:text-5xl">Find your strain</h1>
       <p className="mx-auto mt-3 max-w-md text-center text-ink-dim">
-        Five questions. Personalized matches, with the reasoning shown.
+        Five questions. You get a short list of strains that match — plus a plain explanation for each pick.
       </p>
 
       {!done ? (
@@ -114,7 +115,7 @@ export default function FinderQuiz() {
                 <span className="tabular mr-2 text-emerald">{step + 1}/{steps.length}</span>
                 {current.question}
               </h2>
-              {current.multi && <p className="mt-1 text-sm text-ink-dim">Pick as many as you like.</p>}
+              {current.multi && <p className="mt-1 text-sm text-ink-dim">Choose one or more.</p>}
               <div className="mt-6 flex flex-wrap gap-2.5">
                 {current.options.map((o) => {
                   const active = current.multi
@@ -137,11 +138,12 @@ export default function FinderQuiz() {
                 <button
                   onClick={() => setStep(Math.max(0, step - 1))}
                   className={`text-sm text-ink-dim hover:text-ink ${step === 0 ? "invisible" : ""}`}
+                  aria-label="Go back to previous question"
                 >
-                  ← Back
+                  Back
                 </button>
-                <button onClick={next} disabled={!canAdvance} className="btn-primary disabled:opacity-40">
-                  {step === steps.length - 1 ? "Reveal my matches" : "Next →"}
+                <button onClick={next} disabled={!canAdvance} className="btn-primary disabled:opacity-40" aria-label={step === steps.length - 1 ? "Show my strain matches" : "Continue to next question"}>
+                  {step === steps.length - 1 ? "Show my matches" : "Next"}
                 </button>
               </div>
             </motion.div>
@@ -150,7 +152,7 @@ export default function FinderQuiz() {
       ) : (
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mt-10">
           <h2 className="text-2xl font-semibold">
-            Your top {results.length} matches
+            Strains that fit your answers
           </h2>
           <div className="mt-6 space-y-6">
             {results.map(({ strain, reasons }, i) => (
@@ -162,19 +164,20 @@ export default function FinderQuiz() {
               >
                 <StrainCard strain={strain} />
                 <p className="mt-2 px-1 text-sm text-ink-dim">
-                  <span className="text-emerald">Why:</span> {reasons.join("; ")}.
+                  <span className="text-emerald">Why this strain:</span> {reasons.join("; ")}.
                 </p>
               </motion.div>
             ))}
             {results.length === 0 && (
-              <p className="text-ink-dim">No safe matches for that combination — try broader effects or higher experience level.</p>
+              <p className="text-ink-dim">Nothing in our database lines up with that combo. Try widening your effect choices or bumping your experience level.</p>
             )}
           </div>
           <button
             onClick={() => { setDone(false); setStep(0); setAnswers({ effects: [], taste: [] }); }}
             className="mt-8 text-sm text-emerald hover:underline"
+            aria-label="Restart the strain finder quiz"
           >
-            ↺ Start over
+            Start over
           </button>
         </motion.div>
       )}

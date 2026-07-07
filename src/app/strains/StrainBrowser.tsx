@@ -26,18 +26,19 @@ export default function StrainBrowser() {
 
   return (
     <div className="mx-auto max-w-6xl px-5 py-12">
-      <h1 className="text-4xl font-semibold sm:text-5xl">Strain Database</h1>
+      <p className="eyebrow rise">Strain database</p>
+      <h1 className="rise rise-1 mt-2 text-4xl font-semibold sm:text-5xl">Cannabis strain guide</h1>
       <p className="mt-3 max-w-xl text-ink-dim">
-        {strains.length} strains with lab-style profiles: cannabinoids, terpenes, effects, and community ratings.
+        {strains.length} strains with cannabinoid numbers, terpene breakdowns, reported effects, and ratings from readers like you.
       </p>
 
       <div className="mt-8 flex flex-wrap items-center gap-3">
         <input
-          placeholder="Search strains…"
+          placeholder="Search by strain name…"
           value={q}
           onChange={(e) => setQ(e.target.value)}
           className="w-full sm:w-64"
-          aria-label="Search strains"
+          aria-label="Search cannabis strains by name"
         />
         <div className="flex gap-2">
           {genetics.map((g) => (
@@ -50,8 +51,8 @@ export default function StrainBrowser() {
             </button>
           ))}
         </div>
-        <select value={effect} onChange={(e) => setEffect(e.target.value)} aria-label="Filter by effect">
-          <option value="all">Any effect</option>
+        <select value={effect} onChange={(e) => setEffect(e.target.value)} aria-label="Filter strains by effect">
+          <option value="all">All effects</option>
           {allEffects.map((e) => (
             <option key={e} value={e}>{e}</option>
           ))}
@@ -72,7 +73,7 @@ export default function StrainBrowser() {
         ))}
       </motion.div>
       {results.length === 0 && (
-        <p className="mt-16 text-center text-ink-dim">No strains match those filters.</p>
+        <p className="mt-16 text-center text-ink-dim">No strains match those filters — try a different effect or search term.</p>
       )}
     </div>
   );

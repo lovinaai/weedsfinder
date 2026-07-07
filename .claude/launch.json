@@ -2,10 +2,16 @@
   "version": "0.0.1",
   "configurations": [
     {
+      "name": "weedsfinder-dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "autoPort": true
+    },
+    {
       "name": "weedsfinder",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["start", "--", "-p", "4330"],
-      "port": 4330
+      "runtimeArgs": ["start"],
+      "autoPort": true
     }
   ]
 }

@@ -18,7 +18,12 @@ export function Stars({ rating }: { rating: number }) {
 
 export default function StrainCard({ strain, className = "" }: { strain: Strain; className?: string }) {
   return (
-    <Link href={`/strains/${strain.slug}`} className={`card block p-5 ${className}`}>
+    <Link
+      href={`/strains/${strain.slug}`}
+      className={`card block p-5 ${className}`}
+      title={`${strain.name} — ${strain.genetics} strain, ${strain.thc}% THC`}
+      aria-label={`${strain.name}, ${strain.genetics}, ${strain.thc} percent THC, rated ${strain.rating} out of 5`}
+    >
       <div className="flex items-start justify-between gap-3">
         <div>
           <span className={`text-[0.7rem] uppercase tracking-widest ${geneticsColor[strain.genetics]}`}>
@@ -39,7 +44,7 @@ export default function StrainCard({ strain, className = "" }: { strain: Strain;
       <div className="mt-3 flex items-center justify-between text-sm">
         <Stars rating={strain.rating} />
         <span className="tabular text-xs text-ink-dim">
-          {strain.ratingCount.toLocaleString()} reviews
+          {strain.ratingCount.toLocaleString()} ratings
         </span>
       </div>
     </Link>

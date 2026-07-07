@@ -15,8 +15,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const c = getCountry(country);
   if (!c) return {};
   return {
-    title: `Is Weed Legal in ${c.name}? Cannabis Laws ${new Date(c.updated).getFullYear()}`,
-    description: `Cannabis in ${c.name}: ${statusLabel[c.legalStatus].toLowerCase()}. ${c.rules.slice(0, 150)}…`,
+    title: `Is Cannabis Legal in ${c.name}? (${new Date(c.updated).getFullYear()} Guide)`,
+    description: `Cannabis in ${c.name} is ${statusLabel[c.legalStatus].toLowerCase()}. ${c.rules.slice(0, 140)}…`,
     alternates: { canonical: `/laws/${c.slug}` },
   };
 }
@@ -48,38 +48,38 @@ export default async function CountryLawPage({ params }: Props) {
   return (
     <div className="mx-auto max-w-4xl px-5 py-12">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
-      <nav className="text-sm text-ink-dim">
-        <Link href="/laws" className="hover:text-ink">Laws</Link> / {c.name}
+      <nav className="text-sm text-ink-dim" aria-label="Breadcrumb">
+        <Link href="/laws" className="hover:text-ink">Cannabis laws</Link> / {c.name}
       </nav>
       <div className="mt-6 flex flex-wrap items-center gap-4">
         <h1 className="text-4xl font-semibold sm:text-5xl">
-          <span className="mr-3">{c.flag}</span>Cannabis in {c.name}
+          <span className="mr-3" aria-hidden>{c.flag}</span>Is cannabis legal in {c.name}?
         </h1>
         <LegalBadge status={c.legalStatus} />
       </div>
 
       <div className="mt-8 grid gap-4 sm:grid-cols-2">
         <div className="card p-5">
-          <h2 className="text-sm uppercase tracking-widest text-ink-dim">Recreational</h2>
+          <h2 className="text-sm uppercase tracking-widest text-ink-dim">Recreational use</h2>
           <p className={`mt-2 text-2xl font-semibold ${c.recreational ? "text-emerald" : "text-clay"}`}>
-            {c.recreational ? "Legal" : "Not legal"}
+            {c.recreational ? "Allowed" : "Not allowed"}
           </p>
         </div>
         <div className="card p-5">
-          <h2 className="text-sm uppercase tracking-widest text-ink-dim">Medical</h2>
+          <h2 className="text-sm uppercase tracking-widest text-ink-dim">Medical cannabis</h2>
           <p className={`mt-2 text-2xl font-semibold ${c.medical ? "text-emerald" : "text-clay"}`}>
-            {c.medical ? "Available" : "Not available"}
+            {c.medical ? "Available" : "Unavailable"}
           </p>
         </div>
       </div>
 
-      <h2 className="mt-10 text-2xl font-semibold">The rules</h2>
+      <h2 className="mt-10 text-2xl font-semibold">What the law says</h2>
       <p className="mt-3 leading-relaxed text-ink-dim">{c.rules}</p>
-      <p className="mt-3 text-xs text-ink-dim/70">Last verified {c.updated}. Not legal advice — always confirm with local authorities.</p>
+      <p className="mt-3 text-xs text-ink-dim/70">Last verified {c.updated}. This is a summary, not legal advice — confirm with local authorities before you travel or buy.</p>
 
       {c.cities.length > 0 && (
         <>
-          <h2 className="mt-10 text-2xl font-semibold">City guides</h2>
+          <h2 className="mt-10 text-2xl font-semibold">City-by-city notes</h2>
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
             {c.cities.map((city) => (
               <div key={city.slug} className="card p-5">
@@ -93,10 +93,10 @@ export default async function CountryLawPage({ params }: Props) {
 
       {neighbors.length > 0 && (
         <>
-          <h2 className="mt-10 text-2xl font-semibold">Similar legal status</h2>
+          <h2 className="mt-10 text-2xl font-semibold">Countries with similar rules</h2>
           <div className="mt-4 flex flex-wrap gap-2.5">
             {neighbors.map((n) => (
-              <Link key={n.slug} href={`/laws/${n.slug}`} className="pill !py-1.5 hover:border-emerald/40 hover:text-ink">
+              <Link key={n.slug} href={`/laws/${n.slug}`} title={`Cannabis laws in ${n.name}`} className="pill !py-1.5 hover:border-emerald/40 hover:text-ink">
                 {n.flag} {n.name}
               </Link>
             ))}

@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import StrainBrowser from "./StrainBrowser";
+import { strains } from "@/data/strains";
 
 export const metadata: Metadata = {
-  title: "Strain Database — Effects, THC, Terpenes & Reviews",
+  title: "Cannabis Strain Database — Effects, THC & Terpenes",
   description:
-    "Browse the WeedsFinder cannabis strain encyclopedia. Filter by genetics, effects, THC level, and flavor. Detailed terpene profiles and community ratings for every strain.",
+    `Browse ${strains.length} cannabis strains with THC and CBD levels, dominant terpenes, reported effects, and reader ratings. Filter by indica, sativa, hybrid, or effect.`,
 };
 
 export default function StrainsPage() {

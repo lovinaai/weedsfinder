@@ -167,8 +167,8 @@ function Compare() {
         </tbody>
       </table>
       <div className="mt-4 grid grid-cols-2 gap-3 text-center text-sm">
-        <Link href={`/strains/${sa.slug}`} className="text-emerald hover:underline">{sa.name} →</Link>
-        <Link href={`/strains/${sb.slug}`} className="text-emerald hover:underline">{sb.name} →</Link>
+        <Link href={`/strains/${sa.slug}`} className="text-emerald hover:underline" title={`Read the full ${sa.name} strain profile`}>View {sa.name}</Link>
+        <Link href={`/strains/${sb.slug}`} className="text-emerald hover:underline" title={`Read the full ${sb.name} strain profile`}>View {sb.name}</Link>
       </div>
     </div>
   );

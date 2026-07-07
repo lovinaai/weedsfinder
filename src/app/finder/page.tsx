@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import FinderQuiz from "./FinderQuiz";
 
 export const metadata: Metadata = {
-  title: "AI Strain Finder — Personalized Cannabis Recommendations",
+  title: "Strain Finder — Get a Cannabis Recommendation in 5 Questions",
   description:
-    "Answer five questions about experience, desired effects, time of day, taste, and potency. The WeedsFinder engine returns personalized strain matches with reasoning.",
+    "Tell us your experience, preferred effects, time of day, flavors, and THC tolerance. WeedsFinder returns matching strains and explains why each one fits.",
 };
 
 export default function FinderPage() {

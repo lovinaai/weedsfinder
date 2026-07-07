@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import AssistantChat from "./AssistantChat";
 
 export const metadata: Metadata = {
-  title: "AI Cannabis Assistant — Ask Anything",
+  title: "Cannabis Q&A — Ask About Strains, Terpenes & Laws",
   description:
-    "Ask the WeedsFinder assistant about strains, effects, terpenes, and cannabis laws worldwide. Answers grounded in the WeedsFinder knowledge base with linked sources.",
+    "Ask WeedsFinder about strain effects, terpene profiles, or whether cannabis is legal in a given country. Answers link back to the source pages.",
 };
 
 export default function AssistantPage() {

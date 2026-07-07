@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const t = getTool(tool);
   if (!t) return {};
   return {
-    title: `${t.name} — Free Cannabis Tool`,
+    title: `Free ${t.name} — Cannabis Dosing Tool`,
     description: t.blurb,
     alternates: { canonical: `/tools/${t.slug}` },
   };
@@ -29,8 +29,8 @@ export default async function ToolPage({ params }: Props) {
 
   return (
     <div className="mx-auto max-w-3xl px-5 py-12">
-      <nav className="text-sm text-ink-dim">
-        <Link href="/tools" className="hover:text-ink">Tools</Link> / {t.name}
+      <nav className="text-sm text-ink-dim" aria-label="Breadcrumb">
+        <Link href="/tools" className="hover:text-ink">Cannabis tools</Link> / {t.name}
       </nav>
       <h1 className="mt-4 text-4xl font-semibold">
         <span className="mr-3">{t.icon}</span>{t.name}
@@ -42,7 +42,7 @@ export default async function ToolPage({ params }: Props) {
         </Suspense>
       </div>
       <p className="mt-6 text-xs text-ink-dim/70">
-        Estimates for educational purposes. Individual response varies widely — start low, go slow.
+        Estimates for learning purposes. Everyone responds differently — start with less than you think you need.
       </p>
     </div>
   );
